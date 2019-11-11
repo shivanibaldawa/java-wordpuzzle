@@ -3,6 +3,7 @@ package com.marlo.puzzlesolver;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.*;
+import java.util.stream.Stream;
 
 public class puzzlesolver {
 
@@ -28,10 +29,20 @@ public class puzzlesolver {
     int[] allowed = new int[26];
     int validWordCount = 0;
 
+
     for (char c : inputLetters.toCharArray()) {
       int index = c - 'a';
       allowed[index]++;
     }
+/*
+    inputLetters.toCharArray().stream()
+        .forEach(
+            c -> {
+              int index = c - 'a';
+              allowed[index]++;
+            });
+*/
+    // Arrays.asList(inputLetters.toCharArray()).stream().forEach( (char c)->{int index=c-'a';
 
     // create list
     // Arrays.asList(inputLetters.toCharArray())
