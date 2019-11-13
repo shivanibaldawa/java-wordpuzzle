@@ -1,0 +1,22 @@
+image: maven:3.6.0-jdk-8-slim
+
+variables:
+  MAVEN_CLI_OPTS: "-s .m2/settings.xml --batch-mode"
+  MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository"
+
+cache:
+  key: ${CI_COMMIT_REF_NAME}-${CI_JOB_NAME}
+  paths:
+    - .m2/repository/
+    - target/
+
+build:
+  stage: build  
+  except:
+    - tags
+  script:
+    - mvn $MAVEN_CLI_OPTS clean validate fmt:check sortpom:verify package
+    - java -cp target/com.example.helloworld.jar com.example.helloworld.HelloWorld
+  artifacts:
+    paths:
+      - target/*.jar
