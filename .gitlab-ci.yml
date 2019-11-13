@@ -16,7 +16,7 @@ build:
     - tags
   script:
     - mvn $MAVEN_CLI_OPTS clean validate fmt:check sortpom:verify package
-    - java -cp target/com.marlo.puzzlesolver.jar com.marlo.puzzlesolver.App
+    - java -cp target/com.marlo.9letterwordpuzzle.jar com.marlo.puzzlesolver.App
   artifacts:
     paths:
       - target/*.jar
