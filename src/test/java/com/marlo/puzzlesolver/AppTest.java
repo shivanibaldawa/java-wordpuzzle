@@ -1,15 +1,14 @@
 package com.marlo.puzzlesolver;
 
-import org.junit.Test;
+import static com.marlo.puzzlesolver.Validation.validation;
+import static junit.framework.Assert.assertTrue;
+import static junit.framework.TestCase.assertEquals;
 
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
-import static com.marlo.puzzlesolver.Validation.validation;
-import static junit.framework.Assert.assertTrue;
-import static junit.framework.TestCase.assertEquals;
+import org.junit.Test;
 
 public class AppTest {
 

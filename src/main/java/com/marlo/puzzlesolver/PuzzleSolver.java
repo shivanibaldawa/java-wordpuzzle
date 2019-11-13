@@ -53,11 +53,11 @@ public class PuzzleSolver {
    */
 
   /**
-   * Maps all the characters in the input letters to an array of integers of 26 letters
-   * Checks the words int the dictionary with respect to the restrictions of the mandatory character and minimum length
-   * Maps the valid words to another array count for every word in the dictionary
-   * Compares the input letters array to the count array and returns the result list of all valid words
-   *
+   * Maps all the characters in the input letters to an array of integers of 26 letters Checks the
+   * words int the dictionary with respect to the restrictions of the mandatory character and
+   * minimum length Maps the valid words to another array count for every word in the dictionary
+   * Compares the input letters array to the count array and returns the result list of all valid
+   * words
    */
   public List<String> findWords(String inputLetters, String mandatoryLetter, int minimumLength) {
     int[] allowed = new int[26];
