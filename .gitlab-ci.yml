@@ -19,3 +19,26 @@ build:
   artifacts:
     paths:
       - target/*.jar
+sonar:
+  stage: scan
+  only:
+    - master
+    - /^feature\/*/
+  script:
+    - mvn $MAVEN_CLI_OPTS -Psonar sonar:sonar
+  tags:
+    - testrunner
+
+pages:
+  stage: deploy
+  only:
+    refs:
+      - master
+      - /^feature.*/
+  script:
+    - mvn $MAVEN_CLI_OPTS javadoc:javadoc site
+    - mv target/site public
+  artifacts:
+    paths:
+      - public
+      - target/com.marlo.example.jar

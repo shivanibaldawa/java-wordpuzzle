@@ -28,14 +28,14 @@ public class PuzzleSolver {
     try {
       path = Paths.get(getClass().getClassLoader().getResource("Dictionary.txt").toURI());
     } catch (URISyntaxException e) {
-      e.printStackTrace();
+      System.err.println(e.getMessage());
     }
 
     Stream<String> lines = null;
     try {
       lines = Files.lines(path);
     } catch (IOException e) {
-      e.printStackTrace();
+      System.err.println(e.getMessage());
     }
 
     // String data = lines.collect(Collectors.joining("\n"));
@@ -59,7 +59,8 @@ public class PuzzleSolver {
    * Compares the input letters array to the count array and returns the result list of all valid
    * words
    */
-  public List<String> findWords(String inputLetters, String mandatoryLetter, int minimumLength) {
+  public List<String> findWords(
+      final String inputLetters, final String mandatoryLetter, final int minimumLength) {
     int[] allowed = new int[26];
 
     inputLetters
