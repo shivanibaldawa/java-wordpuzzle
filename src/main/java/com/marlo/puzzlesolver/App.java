@@ -1,9 +1,11 @@
 package com.marlo.puzzlesolver;
 
-import org.apache.commons.cli.*;
+import static java.nio.charset.StandardCharsets.UTF_8;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import org.apache.commons.cli.*;
 
 /**
  * App class.
@@ -13,65 +15,45 @@ import java.util.List;
  */
 public class App {
 
-  static String inputLetters;
-  static String mandatoryLetter;
-  static int minimumLength;
-  static Options options = new Options();
-
   /**
-   * main.
+   * Command line argument parsing and reads the dictionary from the resources.
    *
    * @param args an array of {@link java.lang.String} objects.
    */
   public static void main(String[] args) {
 
-    List<String> result = new ArrayList<>();
+    final Options options = new Options();
+    final String inputLetters;
+    final String mandatoryLetter;
+    final int minimumLength;
 
-    options.addRequiredOption("i", "Input letters", true, "Enter input letters");
-    options.addRequiredOption("m", "Mandatory letters", true, "Enter mandatory letter");
-    options.addRequiredOption("l", "Minimum length", true, "Enter minimum length");
-    options.addOption("h", false, "Help");
+    options.addRequiredOption("i", "input", true, "Valid letters");
+    options.addRequiredOption("m", "mandatory", true, "Mandatory letter");
+    options.addRequiredOption("l", "minimum", true, "Minimum word length");
+    options.addOption("h", "help", false, "Help");
 
     CommandLineParser parser = new DefaultParser();
-    CommandLine cmd = null;
+
     try {
-      cmd = parser.parse(options, args);
+      CommandLine cmd = parser.parse(options, args);
 
       if (cmd.getOptions().length == 0 || cmd.hasOption("h")) {
-        help();
+        HelpFormatter formatter = new HelpFormatter();
+        formatter.printHelp("-h", options);
+        // System.exit(0);
       }
-      if (cmd.hasOption("i") && cmd.hasOption("m") && cmd.hasOption("l")) {
-        // List<String> result = new ArrayList<>();
-        inputLetters = cmd.getOptionValue("i");
-        mandatoryLetter = cmd.getOptionValue("m");
-        minimumLength = Integer.parseInt(cmd.getOptionValue("l"));
 
+      inputLetters = cmd.getOptionValue("i");
+      mandatoryLetter = cmd.getOptionValue("m");
+      minimumLength = Integer.parseInt(cmd.getOptionValue("l"));
 
-        /*
-            inputLetters = args[0];
-            mandatoryLetter = args[1];
-            minimumLength = Integer.parseInt(args[2]);
-        */
+      InputStream dictionary = App.class.getClassLoader().getResourceAsStream("english.dictionary");
+      BufferedReader words = new BufferedReader(new InputStreamReader(dictionary, UTF_8));
 
-        boolean valid = Validation.validation(inputLetters);
+      Validation.findValidWords(inputLetters, mandatoryLetter, minimumLength, words);
 
-        if (valid) {
-          PuzzleSolver solver = new PuzzleSolver();
-          solver.prepareDictionary();
-          result = solver.findWords(inputLetters, mandatoryLetter, minimumLength);
-          solver.printResults(result);
-        } else {
-          System.out.println("Enter 9 valid letters");
-        }
-      }
     } catch (ParseException e) {
-      System.err.println("Unexpected exception: " + e.getMessage());
+      System.err.println(e);
     }
-  }
-
-  public static void help() {
-    HelpFormatter formatter = new HelpFormatter();
-    formatter.printHelp("-h", options);
-    System.exit(0);
   }
 }

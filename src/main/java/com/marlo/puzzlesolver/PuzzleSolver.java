@@ -1,14 +1,5 @@
 package com.marlo.puzzlesolver;
 
-import java.io.IOException;
-import java.net.URISyntaxException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
 /**
  * puzzlesolver class.
  *
@@ -17,50 +8,17 @@ import java.util.stream.Stream;
  */
 public class PuzzleSolver {
 
-  Set<String> dictionary = prepareDictionary();
-
-  List<String> result = new ArrayList<>();
-  int validWordCount;
-
-  /** Create a hash set of all the words in dictionary. */
-  public Set<String> prepareDictionary() {
-    Path path = null;
-    try {
-      path = Paths.get(getClass().getClassLoader().getResource("Dictionary.txt").toURI());
-    } catch (URISyntaxException e) {
-      System.err.println(e.getMessage());
-    }
-
-    Stream<String> lines = null;
-    try {
-      lines = Files.lines(path);
-    } catch (IOException e) {
-      System.err.println(e.getMessage());
-    }
-
-    // String data = lines.collect(Collectors.joining("\n"));
-    Set<String> dictionary = lines.collect(Collectors.toSet());
-    return dictionary;
-    //  lines.close();
-  }
-
-  /**
-   * findWords.
-   *
-   * @param inputLetters a {@link java.lang.String} object.
-   * @param mandatoryLetter a {@link java.lang.String} object.
-   * @param minimumLength a int.
-   */
-
   /**
    * Maps all the characters in the input letters to an array of integers of 26 letters Checks the
    * words int the dictionary with respect to the restrictions of the mandatory character and
    * minimum length Maps the valid words to another array count for every word in the dictionary
-   * Compares the input letters array to the count array and returns the result list of all valid
-   * words
+   * Compares the input letters array to the count array and returns true if the word is valid
+   *
+   * @param inputLetters The inputLetters
+   * @return Returns the ASCII value as an array for the input letters received
    */
-  public List<String> findWords(
-      final String inputLetters, final String mandatoryLetter, final int minimumLength) {
+  public static int[] input(final String inputLetters) {
+
     int[] allowed = new int[26];
 
     inputLetters
@@ -75,40 +33,33 @@ public class PuzzleSolver {
               allowed[index]++;
             });
 
-    for (String dword : dictionary) {
-      // Constraints
-      if (dword.length() < minimumLength || !dword.contains(mandatoryLetter)) {
-        continue;
-      }
+    return allowed;
+  }
+  /**
+   * findWords.
+   *
+   * @param inputIndex {@link java.lang.String} object.
+   * @param mandatoryLetter a {@link java.lang.String} object.
+   * @param minimumLength a int.
+   * @param dword Dictionary word
+   * @return Returns if the dictionary word is valid
+   */
+  public static boolean findWords(
+      final int[] inputIndex, final String mandatoryLetter, final int minimumLength, String dword) {
+    // Constraints
+    if (dword.length() < minimumLength || !dword.contains(mandatoryLetter)) return false;
 
-      int[] count = new int[26];
-      boolean valid = true;
+    int[] count = new int[26];
+    boolean valid = true;
 
-      for (char c : dword.toCharArray()) {
-        int index = c - 'a';
-        count[index]++;
-        if (count[index] > allowed[index]) {
-          valid = false;
-          break;
-        }
-      }
-      if (valid) {
-        result.add(dword);
-        validWordCount++;
+    for (char c : dword.toCharArray()) {
+      int index = c - 'a';
+      count[index]++;
+      if (count[index] > inputIndex[index]) {
+        valid = false;
+        break;
       }
     }
-
-    Collections.sort(result, Comparator.<String>comparingInt(String::length));
-
-    return result;
-  }
-
-  public void printResults(List<String> r) {
-    System.out.println(
-        "Number of valid words from letters " + App.inputLetters + ": " + validWordCount);
-    r.forEach(
-        a -> {
-          System.out.println(a);
-        });
+    return valid;
   }
 }

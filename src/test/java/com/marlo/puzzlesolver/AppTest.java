@@ -1,48 +1,34 @@
 package com.marlo.puzzlesolver;
 
-import static com.marlo.puzzlesolver.Validation.validation;
-import static junit.framework.Assert.assertTrue;
-import static junit.framework.TestCase.assertEquals;
-import static junit.framework.TestCase.assertFalse;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import junit.framework.TestCase;
 import org.junit.Test;
 
 public class AppTest {
 
   @Test
-  public void validationtest() {
+  public void validationTest() {
     String inputLetters = "vjhknhvhk";
     // App.main();
-    TestCase.assertTrue("Validation test successful", validation(inputLetters));
+    assertTrue("Validation test successful", Validation.validate(inputLetters));
   }
 
   @Test
-  public void validationtestfalse() {
+  public void validationTestFalse() {
     String inputLetters = "v2hknhvhk";
 
-    assertFalse("Validation test successful", validation(inputLetters));
-  }
-
-  @Test
-  public void prepareDictionaryTest() {
-    PuzzleSolver pz = new PuzzleSolver();
-    String[] arr = {"Hi", "this", "is", "a", "test", "file"};
-    Set<String> set = new HashSet<>(Arrays.asList(arr));
-
-    assertEquals("Prepare dictionary successful", set, pz.prepareDictionary());
+    assertFalse("Validation test successful", Validation.validate(inputLetters));
   }
 
   @Test
   public void findWordsTest() {
-    PuzzleSolver pz = new PuzzleSolver();
-    String test = "file";
-
-    List<String> result = pz.findWords("life", "e", 4);
-    assertTrue("Test findwords successful", result.contains(test));
+    int[] input = PuzzleSolver.input("elifasrty");
+    String mandatoryLetter = "i";
+    int minimumLength = 4;
+    String dWord = "file";
+    assertTrue(
+        "The input letters contains the word file",
+        PuzzleSolver.findWords(input, mandatoryLetter, minimumLength, dWord));
   }
 }
