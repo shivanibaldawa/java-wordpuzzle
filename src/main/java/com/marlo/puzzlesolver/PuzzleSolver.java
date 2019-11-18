@@ -7,7 +7,6 @@ package com.marlo.puzzlesolver;
  * @version $Id: $Id
  */
 public class PuzzleSolver {
-
   /**
    * Maps all the characters in the input letters to an array of integers of 26 letters.
    *
@@ -33,21 +32,14 @@ public class PuzzleSolver {
     return allowed;
   }
   /**
-   * Checks the word in the dictionary with respect to the restrictions of the mandatory character
-   * and minimum length. Maps the word in the dictionary to an array count in the dictionary.
-   * Compares the input letters array to the count array and returns true if the word is valid.
+   * Maps the word in the dictionary to an array count in the dictionary. Compares the input letters
+   * array to the count array and returns true if the word is valid.
    *
    * @param inputIndex {@link java.lang.String} object.
-   * @param mandatoryLetter a {@link java.lang.String} object.
-   * @param minimumLength a int.
    * @param dword Dictionary word
    * @return Returns if the dictionary word is valid
    */
-  public static boolean findWords(
-      final int[] inputIndex, final String mandatoryLetter, final int minimumLength, String dword) {
-
-    // Constraints
-    if (dword.length() < minimumLength || !dword.contains(mandatoryLetter)) return false;
+  public static boolean findWords(final int[] inputIndex, String dword) {
 
     int[] count = new int[26];
     boolean valid = true;

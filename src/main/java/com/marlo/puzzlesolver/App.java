@@ -5,13 +5,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.List;
-import org.apache.commons.cli.CommandLine;
-import org.apache.commons.cli.CommandLineParser;
-import org.apache.commons.cli.DefaultParser;
-import org.apache.commons.cli.HelpFormatter;
-import org.apache.commons.cli.Options;
-import org.apache.commons.cli.ParseException;
+import org.apache.commons.cli.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -58,10 +52,19 @@ public class App {
       InputStream dictionary = App.class.getClassLoader().getResourceAsStream("english.dictionary");
       BufferedReader words = new BufferedReader(new InputStreamReader(dictionary, UTF_8));
 
-      List<String> result =
-          Validation.findAndPrintValidWords(inputLetters, mandatoryLetter, minimumLength, words);
-      result.stream().forEach(s -> logger.info(s + "\n"));
+      if (inputLetters.length() == 9 && inputLetters.matches("[a-zA-Z]+")) {
 
+        final int[] inputIndex = PuzzleSolver.input(inputLetters);
+        words
+            .lines()
+            .filter(a -> a.contains(mandatoryLetter))
+            .filter(a -> a.length() >= minimumLength)
+            .filter(s -> PuzzleSolver.findWords(inputIndex, s))
+            .forEach(System.out::println);
+
+      } else {
+        logger.error("Enter 9 valid letters!!");
+      }
     } catch (ParseException e) {
       logger.error("An exception occurred");
     }
