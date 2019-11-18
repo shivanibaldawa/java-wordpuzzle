@@ -10,8 +10,9 @@ cache:
     - .m2/repository/
     - target/
 
+
 build:
-  stage: build  
+  stage: build
   except:
     - tags
   script:
@@ -19,15 +20,6 @@ build:
   artifacts:
     paths:
       - target/*.jar
-sonar:
-  stage: scan
-  only:
-    - master
-    - /^feature\/*/
-  script:
-    - mvn $MAVEN_CLI_OPTS -Psonar sonar:sonar
-  tags:
-    - testrunner
 
 pages:
   stage: deploy

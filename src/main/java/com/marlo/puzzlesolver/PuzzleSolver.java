@@ -1,5 +1,8 @@
 package com.marlo.puzzlesolver;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * puzzlesolver class.
  *
@@ -9,10 +12,7 @@ package com.marlo.puzzlesolver;
 public class PuzzleSolver {
 
   /**
-   * Maps all the characters in the input letters to an array of integers of 26 letters Checks the
-   * words int the dictionary with respect to the restrictions of the mandatory character and
-   * minimum length Maps the valid words to another array count for every word in the dictionary
-   * Compares the input letters array to the count array and returns true if the word is valid
+   * Maps all the characters in the input letters to an array of integers of 26 letters.
    *
    * @param inputLetters The inputLetters
    * @return Returns the ASCII value as an array for the input letters received
@@ -36,7 +36,9 @@ public class PuzzleSolver {
     return allowed;
   }
   /**
-   * findWords.
+   * Checks the word in the dictionary with respect to the restrictions of the mandatory character
+   * and minimum length. Maps the word in the dictionary to an array count in the dictionary.
+   * Compares the input letters array to the count array and returns true if the word is valid.
    *
    * @param inputIndex {@link java.lang.String} object.
    * @param mandatoryLetter a {@link java.lang.String} object.
@@ -46,6 +48,7 @@ public class PuzzleSolver {
    */
   public static boolean findWords(
       final int[] inputIndex, final String mandatoryLetter, final int minimumLength, String dword) {
+
     // Constraints
     if (dword.length() < minimumLength || !dword.contains(mandatoryLetter)) return false;
 

@@ -1,6 +1,12 @@
 package com.marlo.puzzlesolver;
 
 import java.io.BufferedReader;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * validation class.
@@ -11,32 +17,39 @@ import java.io.BufferedReader;
 public class Validation {
 
   /**
+   * Checks for the length of the string and if the input string does not contain any other invalid
+   * characters. Streams the dictionary as a bufferedReader and filters every word of the dictionary
+   * by comparing it to the inputletter.
+   *
    * @param inputLetters Input Letters
    * @param mandatoryLetter Mandatory Letter
    * @param minimumLength Minimum Length
    * @param words Dictionary Words
-   *
-   * Checks for the length of the string and if the input string does not contain any other invalid
-   * characters. Streams the dictionary as a bufferedReader and filters every word of the dictionary
-   * by comparing it to the inputletter.
+   * @return
    */
-  public static void findValidWords(
+  public static List<String> findAndPrintValidWords(
       String inputLetters, String mandatoryLetter, int minimumLength, BufferedReader words) {
     int[] inputIndex = PuzzleSolver.input(inputLetters);
+    Logger logger = LoggerFactory.getLogger("SampleLogger");
+    List<String> result = new ArrayList<>();
 
     boolean valid = validate(inputLetters);
 
     if (valid) {
-      System.out.println("The valid words from " + inputLetters + ":");
-      words
-          .lines()
-          .filter(s -> PuzzleSolver.findWords(inputIndex, mandatoryLetter, minimumLength, s))
-          .forEach(System.out::println);
+      result =
+          words
+              .lines()
+              .filter(s -> PuzzleSolver.findWords(inputIndex, mandatoryLetter, minimumLength, s))
+              .collect(Collectors.toList());
+
     } else {
-      System.out.println("Enter 9 valid letters");
+      logger.error("Enter 9 valid letters!!");
     }
+    return result;
   }
   /**
+   * Checks if the input letter contains valid letters and the length of the input letters is 9
+   *
    * @param inputLetters a {@link java.lang.String} object.
    * @return a boolean.
    */

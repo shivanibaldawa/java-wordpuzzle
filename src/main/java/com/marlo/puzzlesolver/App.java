@@ -5,7 +5,17 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import org.apache.commons.cli.*;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.CommandLineParser;
+import org.apache.commons.cli.DefaultParser;
+import org.apache.commons.cli.HelpFormatter;
+import org.apache.commons.cli.Options;
+import org.apache.commons.cli.ParseException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * App class.
@@ -21,11 +31,13 @@ public class App {
    * @param args an array of {@link java.lang.String} objects.
    */
   public static void main(String[] args) {
+    Logger logger = LoggerFactory.getLogger(App.class);
 
     final Options options = new Options();
     final String inputLetters;
     final String mandatoryLetter;
     final int minimumLength;
+    List<String> result = new ArrayList<>();
 
     options.addRequiredOption("i", "input", true, "Valid letters");
     options.addRequiredOption("m", "mandatory", true, "Mandatory letter");
@@ -40,7 +52,6 @@ public class App {
       if (cmd.getOptions().length == 0 || cmd.hasOption("h")) {
         HelpFormatter formatter = new HelpFormatter();
         formatter.printHelp("-h", options);
-        // System.exit(0);
       }
 
       inputLetters = cmd.getOptionValue("i");
@@ -50,10 +61,11 @@ public class App {
       InputStream dictionary = App.class.getClassLoader().getResourceAsStream("english.dictionary");
       BufferedReader words = new BufferedReader(new InputStreamReader(dictionary, UTF_8));
 
-      Validation.findValidWords(inputLetters, mandatoryLetter, minimumLength, words);
+      result=Validation.findAndPrintValidWords(inputLetters, mandatoryLetter, minimumLength, words);
+      result.stream().forEach( s-> logger.info(s + "\n"));
 
     } catch (ParseException e) {
-      System.err.println(e);
+      logger.error("An exception occurred");
     }
   }
 }
