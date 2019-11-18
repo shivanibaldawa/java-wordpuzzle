@@ -1,8 +1,5 @@
 package com.marlo.puzzlesolver;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * puzzlesolver class.
  *

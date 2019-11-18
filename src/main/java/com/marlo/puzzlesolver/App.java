@@ -5,9 +5,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
 import java.util.List;
-
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.DefaultParser;
@@ -37,7 +35,6 @@ public class App {
     final String inputLetters;
     final String mandatoryLetter;
     final int minimumLength;
-    List<String> result = new ArrayList<>();
 
     options.addRequiredOption("i", "input", true, "Valid letters");
     options.addRequiredOption("m", "mandatory", true, "Mandatory letter");
@@ -61,8 +58,9 @@ public class App {
       InputStream dictionary = App.class.getClassLoader().getResourceAsStream("english.dictionary");
       BufferedReader words = new BufferedReader(new InputStreamReader(dictionary, UTF_8));
 
-      result=Validation.findAndPrintValidWords(inputLetters, mandatoryLetter, minimumLength, words);
-      result.stream().forEach( s-> logger.info(s + "\n"));
+      List<String> result =
+          Validation.findAndPrintValidWords(inputLetters, mandatoryLetter, minimumLength, words);
+      result.stream().forEach(s -> logger.info(s + "\n"));
 
     } catch (ParseException e) {
       logger.error("An exception occurred");

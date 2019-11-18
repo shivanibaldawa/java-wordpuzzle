@@ -3,14 +3,13 @@ package com.marlo.puzzlesolver;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.junit.Assert.*;
 
-import org.junit.Assert;
-import org.junit.Test;
-
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
+import org.junit.Assert;
+import org.junit.Test;
 
 public class AppTest {
 
@@ -47,15 +46,16 @@ public class AppTest {
   }
 
   @Test
-  public void findAndPrintValidWordsTest(){
+  public void findAndPrintValidWordsTest() {
     List<String> result = new ArrayList<>();
     result.add("file");
     InputStream dictionary = AppTest.class.getClassLoader().getResourceAsStream("Dictionary.txt");
     BufferedReader br = new BufferedReader(new InputStreamReader(dictionary, UTF_8));
-    String inputLetters="afsbailse";
-    String mandatoryLetter="i";
-    int minimumLength=4;
-    assertEquals(result,Validation.findAndPrintValidWords(inputLetters,mandatoryLetter,minimumLength,br));
-
+    String inputLetters = "afsbailse";
+    String mandatoryLetter = "i";
+    int minimumLength = 4;
+    assertEquals(
+        result,
+        Validation.findAndPrintValidWords(inputLetters, mandatoryLetter, minimumLength, br));
   }
 }
