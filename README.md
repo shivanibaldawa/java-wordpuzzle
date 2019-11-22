@@ -5,7 +5,7 @@ Write a program to solve the 9 Letter Word Puzzles.
 The challenge is to write a Java command line program to do this.
 
 
-##Rules
+## Rules
 
 The object of this exercise is to make up as many words as possible from 9 letters. (input parameter)
 
@@ -18,3 +18,15 @@ Each word must contain the mandatory letter. (input parameter)
 Make words with a minimum of n letters Include names. (input parameter) 
 
 A valid English dictionary is provided as an input parameter. (or read from a properties file).
+
+
+# Execution
+
+Run the program using the following command:
+
+mvn exec:java -Dexec.mainClass=com.marlo.puzzlesolver.App -Dexec.args="-i ahsjdkfla -m a -l 4"
+
+
+
+
+

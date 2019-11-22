@@ -1,46 +1,35 @@
 package com.marlo.puzzlesolver;
 
-import static com.marlo.puzzlesolver.Validation.validation;
-import static junit.framework.Assert.assertTrue;
-import static junit.framework.TestCase.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 import org.junit.Test;
 
 public class AppTest {
 
   @Test
-  public void validationtest() {
-    String inputLetters = "vjhknhvhk";
-
-    assertEquals(true, validation(inputLetters));
+  public void isValidWordTest() {
+    /*List<Character> input = new ArrayList<>();
+        input.add('o');
+        input.add('b');
+        input.add('d');
+        input.add('b');
+        input.add('k');
+        input.add('h');
+        input.add('o');
+        input.add('s');
+        input.add('r');
+    */
+    String input = "ajswbookf";
+    String dWord = "book";
+    assertTrue("The dWord is a valid word", PuzzleSolver.isValid(input, dWord));
   }
 
   @Test
-  public void validationtestfalse() {
-    String inputLetters = "v2hknhvhk";
-
-    assertEquals(false, validation(inputLetters));
-  }
-
-  @Test
-  public void prepareDictionaryTest() {
-    PuzzleSolver pz = new PuzzleSolver();
-    String[] arr = {"Hi", "this", "is", "a", "test", "file"};
-    Set<String> set = new HashSet<>(Arrays.asList(arr));
-
-    assertEquals(set, pz.prepareDictionary());
-  }
-
-  @Test
-  public void findwordstest() {
-    PuzzleSolver pz = new PuzzleSolver();
-    String test = "file";
-
-    List<String> result = pz.findWords("life", "e", 4);
-    assertTrue(result.contains(test));
+  public void rejectInvalidWordTest() {
+    String input = "elifasrty";
+    String dWord = "filee";
+    assertFalse(
+        "The input letters does not contain the word filee", PuzzleSolver.isValid(input, dWord));
   }
 }
