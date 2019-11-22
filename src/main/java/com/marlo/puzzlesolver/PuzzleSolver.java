@@ -24,7 +24,9 @@ public class PuzzleSolver {
         letters.chars().mapToObj(letter -> (char) letter).collect(Collectors.toList());
     for (Character w : word.toCharArray()) {
       boolean changed = lettersList.remove(w);
-      if (!changed) {return false;}
+      if (!changed) {
+        return false;
+      }
     }
     return true;
   }
